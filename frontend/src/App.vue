@@ -9,7 +9,7 @@ const isServerHealthy = ref(false)
 
 async function sendGreeting() {
   if (!name.value.trim()) {
-    error.value = 'Пожалуйста, введите имя'
+    error.value = 'Пожалуйста, введите имя11'
     return
   }
 
@@ -18,19 +18,19 @@ async function sendGreeting() {
   greeting.value = ''
 
   try {
-    const response = await fetch(`/api/greet?name=${encodeURIComponent(name.value)}`, {
-      headers: {
-        'Accept': 'application/json',
-      }
-    })
+    // const response = await fetch(`/api/greet?name=${encodeURIComponent(name.value)}`, {
+    //   headers: {
+    //     'Accept': 'application/json',
+    //   }
+    // })
     
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      throw new Error(errorData.detail || `Ошибка сервера: ${response.status}`)
-    }
+    // if (!response.ok) {
+    //   const errorData = await response.json().catch(() => ({}))
+    //   throw new Error(errorData.detail || `Ошибка сервера: ${response.status}`)
+    // }
 
-    const data = await response.json()
-    greeting.value = data.message
+    // const data = await response.json()
+    // greeting.value = data.message
   } catch (err) {
     console.error('Ошибка запроса:', err)
     if (err instanceof Error) {
@@ -48,13 +48,13 @@ async function sendGreeting() {
 
 async function checkHealth(): Promise<boolean> {
   try {
-    const response = await fetch('/api/health', {
-      signal: AbortSignal.timeout(3000) // Таймаут 3 секунды
-    })
+    // const response = await fetch('/api/health', {
+    //   signal: AbortSignal.timeout(3000) // Таймаут 3 секунды
+    // })
     
-    if (!response.ok) {
-      throw new Error('Сервер не отвечает')
-    }
+    // if (!response.ok) {
+    //   throw new Error('Сервер не отвечает')
+    // }
     
     isServerHealthy.value = true
     return true
@@ -87,7 +87,7 @@ onMounted(async () => {
     <div class="input-group">
       <input
         v-model.trim="name"
-        placeholder="Введите ваше имя"
+        placeholder="Введите ваше имяffff"
         :disabled="isLoading || !isServerHealthy"
         @keyup.enter="sendGreeting"
       />
@@ -96,7 +96,7 @@ onMounted(async () => {
         :disabled="isLoading || !name.trim() || !isServerHealthy"
       >
         <span v-if="isLoading">Отправка...</span>
-        <span v-else>Отправить</span>
+        <span v-else>Отправитьff98</span>
       </button>
     </div>
 

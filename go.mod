@@ -1,8 +1,8 @@
-module alohomorus
+module myproject
 
 go 1.22.0
 
-toolchain go1.24.4
+toolchain go1.24.5
 
 require github.com/wailsapp/wails/v2 v2.10.2
 
@@ -36,4 +36,4 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 )
 
-// replace github.com/wailsapp/wails/v2 v2.10.1 => /home/markus/go/pkg/mod
+// replace github.com/wailsapp/wails/v2 v2.9.1 => /home/ny-markov/go/pkg/mod

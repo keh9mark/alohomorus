@@ -1,186 +1,176 @@
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
-const name = ref('')
-const greeting = ref('')
-const isLoading = ref(false)
-const error = ref('')
-const isServerHealthy = ref(false)
-
-async function sendGreeting() {
-  if (!name.value.trim()) {
-    error.value = 'Пожалуйста, введите имя11'
-    return
-  }
-
-  isLoading.value = true
-  error.value = ''
-  greeting.value = ''
-
-  try {
-    // const response = await fetch(`/api/greet?name=${encodeURIComponent(name.value)}`, {
-    //   headers: {
-    //     'Accept': 'application/json',
-    //   }
-    // })
-    
-    // if (!response.ok) {
-    //   const errorData = await response.json().catch(() => ({}))
-    //   throw new Error(errorData.detail || `Ошибка сервера: ${response.status}`)
-    // }
-
-    // const data = await response.json()
-    // greeting.value = data.message
-  } catch (err) {
-    console.error('Ошибка запроса:', err)
-    if (err instanceof Error) {
-      error.value = err.message
-    } else {
-      error.value = 'Произошла неизвестная ошибка'
-    }
-    
-    // Проверяем здоровье сервера после ошибки
-    await checkHealth()
-  } finally {
-    isLoading.value = false
-  }
-}
-
-async function checkHealth(): Promise<boolean> {
-  try {
-    // const response = await fetch('/api/health', {
-    //   signal: AbortSignal.timeout(3000) // Таймаут 3 секунды
-    // })
-    
-    // if (!response.ok) {
-    //   throw new Error('Сервер не отвечает')
-    // }
-    
-    isServerHealthy.value = true
-    return true
-  } catch (err) {
-    console.error('Health check failed:', err)
-    isServerHealthy.value = false
-    
-    if (err instanceof Error) {
-      error.value = 'Серверная часть недоступна: ' + err.message
-    }
-    
-    return false
-  }
-}
-
-// Проверка соединения при загрузке компонента
-onMounted(async () => {
-  await checkHealth()
-})
-</script>
-
 <template>
-  <div class="container">
-    <h1>Приветственное приложение</h1>
-    
-    <div v-if="!isServerHealthy" class="server-warning">
-      ⚠ Серверная часть недоступна. Некоторые функции могут не работать.
+  <div class="main">
+    <div class="main__top"></div>
+    <div class="main__center">
+      <div class="main__left">
+        <div class="left__top">
+          <div class="_right">
+            <img src="./assets/images/energy.png" />
+            <div class="_label">EnergyCalc</div>
+          </div>
+          <div class="_version">v0.0.1</div>
+        </div>
+        <div class="_menu">
+          <div class="left__menu">
+            <div class="menu_item disabled">
+              <img src="./assets/images/list.png" />
+              <div class="label">Список расчетов</div>
+            </div>
+            <div class="menu_item clicked">
+              <img src="./assets/images/add-item.png" />
+              <div class="label">Новый расчет</div>
+            </div>
+            <div class="menu_item disabled">
+              <img src="./assets/images/download.png" />
+              <div class="label">Выгрузить данные</div>
+            </div>
+            <div class="menu_item disabled">
+              <img src="./assets/images/upload.png" />
+              <div class="label">Загрузить данные</div>
+            </div>
+          </div>
+          <div class="left_bottom_menu">
+            <div class="menu_item disabled">
+              <img src="./assets/images/help.png" />
+              <div class="label">Информация</div>
+            </div>
+            <div class="menu_item disabled">
+              <img src="./assets/images/settings.png" />
+              <div class="label">Настройки</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main__content">
+        <NewTask />
+      </div>
+      <div class="main__right"></div>
     </div>
-    
-    <div class="input-group">
-      <input
-        v-model.trim="name"
-        placeholder="Введите ваше имяffff"
-        :disabled="isLoading || !isServerHealthy"
-        @keyup.enter="sendGreeting"
-      />
-      <button
-        @click="sendGreeting"
-        :disabled="isLoading || !name.trim() || !isServerHealthy"
-      >
-        <span v-if="isLoading">Отправка...</span>
-        <span v-else>Отправитьff98</span>
-      </button>
-    </div>
-
-    <div v-if="error" class="error-message">
-      {{ error }}
-    </div>
-
-    <div v-if="greeting" class="greeting-message">
-      {{ greeting }}
-    </div>
+    <div class="main__bottom">EnergyCalc @ 2024 Тест-проект v0.0.1</div>
   </div>
 </template>
 
-<style scoped>
-.container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
+<script lang="ts">
+import { defineComponent } from 'vue'
 
-.server-warning {
-  padding: 10px;
-  margin-bottom: 15px;
-  background-color: #fff3cd;
-  color: #856404;
-  border-radius: 4px;
-  border-left: 4px solid #ffeeba;
-}
+import NewTask from './components/NewTask.vue'
 
-.input-group {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
+export default defineComponent({
+  components: {
+    NewTask: NewTask,
+  },
+  data() {
+    return {}
+  },
+})
+</script>
 
-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
+<style lang="scss">
+.main {
+  cursor: default;
+  height: 100%;
+  width: 100%;
+  background-color: #fafafa;
+  color: black;
 
-input:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
+  >.main__top {
+    height: 0px;
+    width: 100%;
+  }
 
-button {
-  padding: 8px 16px;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s;
-}
+  >.main__center {
+    height: calc(100% - 40px);
+    width: calc(100% - 10px);
+    display: flex;
 
-button:hover:not(:disabled) {
-  background-color: #369f6b;
-}
+    >.main__left {
+      padding-top: 20px;
+      height: 100%;
+      width: 300px;
 
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
+      >.left__top {
+        height: 50px;
 
-.error-message {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #ffebee;
-  color: #f44336;
-  border-radius: 4px;
-  border-left: 4px solid #f44336;
-}
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-.greeting-message {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  border-radius: 4px;
-  border-left: 4px solid #2e7d32;
+        >._right {
+          padding-left: 20px;
+          display: flex;
+          align-items: center;
+
+          >img {
+            height: 50px;
+            width: 50px;
+          }
+
+          >._label {
+            padding-left: 10px;
+          }
+        }
+
+        >._version {
+          padding-right: 20px;
+        }
+      }
+
+      >._menu {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 100px);
+        justify-content: space-between;
+
+        >.left__menu {
+          padding-top: 30px;
+        }
+
+        >.left_bottom_menu {
+          height: 100px;
+        }
+      }
+    }
+
+    >.main__content {
+      background-color: white;
+      height: calc(100% - 40px);
+      width: calc(100% - 350px);
+      margin: 20px;
+      border: 1px solid #eae4e4;
+      border-radius: 20px;
+    }
+  }
+
+  >.main__bottom {
+    height: 30px;
+    width: 100%;
+  }
+
+  .menu_item {
+    padding-left: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: #66737369;
+    }
+
+    &.clicked {
+      background-color: #e4e7e7;
+    }
+
+    >img {
+      height: 30px;
+      width: 30px;
+    }
+
+    >.label {
+      padding-left: 10px;
+    }
+  }
 }
 </style>

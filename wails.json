@@ -1,17 +1,13 @@
 {
   "$schema": "https://wails.io/schemas/config.v2.json",
-  "name": "alohomorus",
-  "outputfilename": "alohomorus",
+  "name": "EnergyCalc beta_test",
+  "outputfilename": "EnergyCalc beta_test",
   "frontend:install": "npm install",
   "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
   "author": {
-    "name": "Nikolay Markov",
-    "email": "keh9mark@yandex.ru"
-  },
-  "extraFiles": {
-    "from": "backend/main.bin",
-    "to": "",
-    "filter": ["**.bin"]
+    "name": "Николай",
+    "email": "markov_ny@ekra.ru"
   }
 }
-

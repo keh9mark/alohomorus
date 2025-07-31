@@ -18,7 +18,7 @@
             </div>
             <div class="menu_item clicked">
               <img src="./assets/images/add-item.png" />
-              <div class="label">Новый расчет</div>
+              <div class="label">Редактор</div>
             </div>
             <div class="menu_item disabled">
               <img src="./assets/images/download.png" />
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="main__content">
-        <NewTask />
+        <editor />
       </div>
       <div class="main__right"></div>
     </div>
@@ -54,10 +54,12 @@
 import { defineComponent } from 'vue'
 
 import NewTask from './components/NewTask.vue'
+import editor from "./components/editor/main.vue"
 
 export default defineComponent({
   components: {
     NewTask: NewTask,
+    editor: editor
   },
   data() {
     return {}
